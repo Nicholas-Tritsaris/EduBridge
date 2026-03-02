@@ -20,5 +20,5 @@ EduBridge is a lightweight platform that connects students and teachers for assi
 ## Quick start (development)
 1. Clone the repo:
    ```bash
-   git clone https://github.com/USERNAME/EduBridge.git
+   git clone https://github.com/Nicholas-Tritsaris/EduBridge.git
    cd EduBridge

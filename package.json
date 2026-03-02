@@ -1,0 +1,28 @@
+{
+  "name": "edubridge",
+  "version": "1.0.0",
+  "description": "**EduBridge** — Connect. Learn. Grow.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicholas-Tritsaris/EduBridge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Nicholas-Tritsaris/EduBridge/issues"
+  },
+  "homepage": "https://github.com/Nicholas-Tritsaris/EduBridge#readme",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.1"
+  }
+}
