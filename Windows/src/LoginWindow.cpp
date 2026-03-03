@@ -178,7 +178,7 @@ void LoginWindow::OnLoginClick() {
     jsonData["email"] = email;
     jsonData["password"] = password;
 
-    std::string response = httpClient.Post("http://localhost:5000/api/auth/login", jsonData);
+    std::string response = httpClient.Post("http://input ip here:5000/api/auth/login", jsonData);
 
     if (response.empty()) {
         UpdateStatus("Network error: " + httpClient.GetLastError(), true);

@@ -30,7 +30,7 @@ const Login = ({ onSwitchToSignup, onLoginSuccess }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('http://input ip here:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

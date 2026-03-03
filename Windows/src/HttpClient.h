@@ -30,8 +30,8 @@ public:
 
 private:
     std::string lastError;
-    const std::wstring serverUrl = L"localhost:5000";
-    const std::wstring secondaryServerUrl = L"127.0.0.1:5000";
+    const std::wstring serverUrl = L"input ip here:5000";
+    const std::wstring secondaryServerUrl = L"input ip here:5000";
 
     // Helper methods
     std::string WideToUtf8(const std::wstring& wide);

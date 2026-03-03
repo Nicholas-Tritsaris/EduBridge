@@ -27,7 +27,7 @@ const EmailVerification = ({ email, onVerificationSuccess, onBackToSignup }) => 
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/verify-email', {
+      const response = await fetch('http://input ip here:5000/api/auth/verify-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const EmailVerification = ({ email, onVerificationSuccess, onBackToSignup }) => 
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/resend-verification', {
+      const response = await fetch('http://input ip here:5000/api/auth/resend-verification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -4,7 +4,7 @@ import Foundation
 class ApiClient {
     static let shared = ApiClient()
     
-    private let baseURL = "http://192.168.1.100:5000" // Change to your server IP
+    private let baseURL = "http://input ip here:5000" // Change to your server IP
     private let session = URLSession.shared
     
     enum ApiError: Error {

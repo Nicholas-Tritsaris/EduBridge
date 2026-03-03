@@ -1,7 +1,7 @@
 // Android/src/ApiService.js
 import axios from 'axios';
 
-const API_BASE_URL = 'http://192.168.1.100:5000'; // Change to your server IP
+const API_BASE_URL = 'http://input ip here:5000'; // Change to your server IP
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
