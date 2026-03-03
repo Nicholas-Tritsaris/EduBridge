@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBridge - Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #ccc;
+        }
+
+        .help-text {
+            color: #999;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-top: 20px;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .button-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-top: 12px;
+        }
+
+        .button-secondary:hover {
+            background: #f5f7ff;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: #f0f0f0;
+            color: #999;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .status-message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .link-text {
+            text-align: center;
+            font-size: 13px;
+            color: #999;
+            margin-top: 16px;
+        }
+
+        .link-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .link-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 30px 20px;
+            }
+
+            .auth-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="toggle-buttons">
+            <button class="toggle-btn active" data-tab="login">Login</button>
+            <button class="toggle-btn" data-tab="signup">Sign Up</button>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="login" class="tab-content active">
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Sign in to EduBridge</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        class="form-input"
+                        placeholder="your@email.com"
+                        required
+                    >
+                    <div id="loginEmailError" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        class="form-input"
+                        placeholder="••••••••"
+                        required
+                    >
+                    <div id="loginPasswordError" class="error-message"></div>
+                </div>
+
+                <button type="submit" class="button button-primary" id="loginBtn">
+                    Sign In
+                </button>
+            </form>
+
+            <div id="loginStatus" class="status-message" style="display: none;"></div>
+
+            <div class="link-text">
+                Don't have an account? <a onclick="switchTab('signup')">Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Signup Tab -->
+        <div id="signup" class="tab-content">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join the learning revolution</p>
+            </div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        class="form-input"
+                        placeholder="your@email.com"
+                        required
+                    >
+                    <div id="signupEmailError" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password (min 6 characters)</label>
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        class="form-input"
+                        placeholder="••••••••"
+                        required
+                    >
+                    <div id="signupPasswordError" class="error-message"></div>
+                    <div class="help-text">Password must be at least 6 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input
+                        type="password"
+                        id="signupConfirmPassword"
+                        class="form-input"
+                        placeholder="••••••••"
+                        required
+                    >
+                    <div id="signupConfirmPasswordError" class="error-message"></div>
+                </div>
+
+                <button type="submit" class="button button-primary" id="signupBtn">
+                    Create Account
+                </button>
+            </form>
+
+            <div id="signupStatus" class="status-message" style="display: none;"></div>
+
+            <div class="link-text">
+                Already have an account? <a onclick="switchTab('login')">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SERVER_URL = 'http://input ip here:5000';
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Clear previous messages
+            document.getElementById('loginStatus').style.display = 'none';
+            document.getElementById('signupStatus').style.display = 'none';
+        }
+
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+
+        // Email validation
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const statusDiv = document.getElementById('loginStatus');
+            const btn = document.getElementById('loginBtn');
+
+            // Clear previous errors
+            document.getElementById('loginEmailError').textContent = '';
+            document.getElementById('loginPasswordError').textContent = '';
+
+            // Validation
+            let hasError = false;
+            if (!email) {
+                document.getElementById('loginEmailError').textContent = 'Email is required';
+                hasError = true;
+            } else if (!validateEmail(email)) {
+                document.getElementById('loginEmailError').textContent = 'Invalid email address';
+                hasError = true;
+            }
+
+            if (!password) {
+                document.getElementById('loginPasswordError').textContent = 'Password is required';
+                hasError = true;
+            } else if (password.length < 6) {
+                document.getElementById('loginPasswordError').textContent = 'Password must be at least 6 characters';
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            // Show loading
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> Signing in...';
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.textContent = 'Login successful! Redirecting...';
+                    statusDiv.style.display = 'block';
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('authToken', data.token);
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    statusDiv.className = 'status-message status-error';
+                    statusDiv.textContent = data.message || 'Login failed';
+                    statusDiv.style.display = 'block';
+                }
+            } catch (error) {
+                statusDiv.className = 'status-message status-error';
+                statusDiv.textContent = 'Network error. Please check your connection.';
+                statusDiv.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Sign In';
+            }
+        });
+
+        // Signup form submission
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const statusDiv = document.getElementById('signupStatus');
+            const btn = document.getElementById('signupBtn');
+
+            // Clear previous errors
+            document.getElementById('signupEmailError').textContent = '';
+            document.getElementById('signupPasswordError').textContent = '';
+            document.getElementById('signupConfirmPasswordError').textContent = '';
+
+            // Validation
+            let hasError = false;
+            if (!email) {
+                document.getElementById('signupEmailError').textContent = 'Email is required';
+                hasError = true;
+            } else if (!validateEmail(email)) {
+                document.getElementById('signupEmailError').textContent = 'Invalid email address';
+                hasError = true;
+            }
+
+            if (!password) {
+                document.getElementById('signupPasswordError').textContent = 'Password is required';
+                hasError = true;
+            } else if (password.length < 6) {
+                document.getElementById('signupPasswordError').textContent = 'Password must be at least 6 characters';
+                hasError = true;
+            }
+
+            if (!confirmPassword) {
+                document.getElementById('signupConfirmPasswordError').textContent = 'Please confirm password';
+                hasError = true;
+            } else if (password !== confirmPassword) {
+                document.getElementById('signupConfirmPasswordError').textContent = 'Passwords do not match';
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            // Show loading
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> Creating Account...';
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.textContent = 'Account created! Check your email for verification.';
+                    statusDiv.style.display = 'block';
+                    document.getElementById('signupForm').reset();
+                    
+                    setTimeout(() => {
+                        // Store email for verification screen
+                        localStorage.setItem('pendingEmail', email);
+                        window.location.href = 'verify-email.html';
+                    }, 1500);
+                } else {
+                    statusDiv.className = 'status-message status-error';
+                    statusDiv.textContent = data.message || 'Signup failed';
+                    statusDiv.style.display = 'block';
+                }
+            } catch (error) {
+                statusDiv.className = 'status-message status-error';
+                statusDiv.textContent = 'Network error. Please check your connection.';
+                statusDiv.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Create Account';
+            }
+        });
+    </script>
+</body>
+</html>
