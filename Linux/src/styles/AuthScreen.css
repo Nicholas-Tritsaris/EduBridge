@@ -1,0 +1,8 @@
+// Linux/src/styles/AuthScreen.css
+.auth-screen {
+  max-width: 450px;
+}
+
+.auth-screen form {
+  margin-bottom: 0;
+}

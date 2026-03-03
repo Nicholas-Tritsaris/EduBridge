@@ -63,12 +63,12 @@ app.post('/api/auth/signup', async (req, res) => {
 
   // Validate input
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
+    return res.status(400).json({ success: false, message: 'Email and password are required' });
   }
 
   // Check if user already exists
   if (users[email]) {
-    return res.status(400).json({ message: 'User already exists' });
+    return res.status(400).json({ success: false, message: 'User already exists' });
   }
 
   // Create user (in production, hash the password)
@@ -82,7 +82,7 @@ app.post('/api/auth/signup', async (req, res) => {
   verificationCodes[email] = code;
   await sendVerificationEmail(email, code);
 
-  res.status(201).json({ message: 'User created. Verification email sent.' });
+  res.status(201).json({ success: true, message: 'User created. Verification email sent.' });
 });
 
 app.post('/api/auth/login', (req, res) => {
@@ -90,25 +90,30 @@ app.post('/api/auth/login', (req, res) => {
 
   // Validate input
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
+    return res.status(400).json({ success: false, message: 'Email and password are required' });
   }
 
   // Check if user exists
   if (!users[email]) {
-    return res.status(401).json({ message: 'Invalid email or password' });
+    return res.status(401).json({ success: false, message: 'Invalid email or password' });
   }
 
   // Check password (in production, compare hashed password)
   if (users[email].password !== password) {
-    return res.status(401).json({ message: 'Invalid email or password' });
+    return res.status(401).json({ success: false, message: 'Invalid email or password' });
   }
 
   // Check if email is verified
   if (!users[email].verified) {
-    return res.status(403).json({ message: 'Email not verified' });
+    return res.status(403).json({ success: false, message: 'Email not verified. Please check your email for verification code.' });
   }
 
-  res.status(200).json({ message: 'Login successful', token: 'jwt-token-here' });
+  res.status(200).json({
+    success: true,
+    message: 'Login successful',
+    token: 'jwt-token-here',
+    user: { email: email, verified: true }
+  });
 });
 
 app.post('/api/auth/verify-email', (req, res) => {
@@ -116,22 +121,49 @@ app.post('/api/auth/verify-email', (req, res) => {
 
   // Validate input
   if (!email || !code) {
-    return res.status(400).json({ message: 'Email and code are required' });
+    return res.status(400).json({ success: false, message: 'Email and code are required' });
   }
 
   // Check if verification code matches
   if (verificationCodes[email] !== code) {
-    return res.status(400).json({ message: 'Invalid verification code' });
+    return res.status(400).json({ success: false, message: 'Invalid verification code' });
   }
 
   // Mark user as verified
   if (users[email]) {
     users[email].verified = true;
     delete verificationCodes[email];
-    res.status(200).json({ message: 'Email verified successfully' });
+    res.status(200).json({
+      success: true,
+      message: 'Email verified successfully',
+      token: 'jwt-token-here',
+      user: { email: email, verified: true }
+    });
   } else {
-    res.status(400).json({ message: 'User not found' });
+    res.status(400).json({ success: false, message: 'User not found' });
   }
+});
+
+// Resend Verification Code
+app.post('/api/auth/resend-verification', async (req, res) => {
+  const { email } = req.body;
+
+  // Validate input
+  if (!email) {
+    return res.status(400).json({ success: false, message: 'Email is required' });
+  }
+
+  // Check if user exists
+  if (!users[email]) {
+    return res.status(400).json({ success: false, message: 'User not found' });
+  }
+
+  // Generate and send new verification code
+  const code = generateVerificationCode();
+  verificationCodes[email] = code;
+  await sendVerificationEmail(email, code);
+
+  res.status(200).json({ success: true, message: 'Verification code sent to your email' });
 });
 
 // Classroom Routes

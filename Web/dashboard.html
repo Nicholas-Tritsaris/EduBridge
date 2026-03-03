@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EduBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>EduBridge</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="download.html">Download</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dashboard.html" class="active btn-nav">Dashboard</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard">
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="user-profile">
+                    <div class="user-avatar">👤</div>
+                    <h3 id="userName">Welcome</h3>
+                    <p id="userRole">Log in to continue</p>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <a href="#overview" class="menu-item active">Overview</a>
+                    <a href="#classrooms" class="menu-item">Classrooms</a>
+                    <a href="#assignments" class="menu-item">Assignments</a>
+                    <a href="#messages" class="menu-item">Messages</a>
+                    <a href="#resources" class="menu-item">Resources</a>
+                    <a href="#settings" class="menu-item">Settings</a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <a href="AuthScreen.html" class="btn btn-secondary">Login</a>
+                    <a href="AuthScreen.html" class="btn btn-primary">Sign Up</a>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="dashboard-content">
+                <!-- Overview Section -->
+                <section id="overview" class="dashboard-section">
+                    <h2>Dashboard Overview</h2>
+                    <p>Welcome to EduBridge! To get started, please log in to access your dashboard.</p>
+                    <a href="AuthScreen.html" class="btn btn-primary btn-large">Log In to Continue</a>
+                </section>
+
+                <!-- Quick Stats -->
+                <section class="quick-stats">
+                    <div class="stat-card">
+                        <h3>📚 Classrooms</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>✅ Assignments</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>💬 Messages</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>👥 Students</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                </section>
+
+                <!-- Getting Started Guide -->
+                <section class="getting-started">
+                    <h2>Getting Started</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Create an Account</h3>
+                            <p>Sign up with your email and create a secure password.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Verify Your Email</h3>
+                            <p>Verify your email address using the code sent to your inbox.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Create a Classroom</h3>
+                            <p>Set up your first classroom and invite students.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h3>Start Teaching</h3>
+                            <p>Create assignments and communicate with your students.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Features Highlight -->
+                <section class="features-highlight">
+                    <h2>Key Features</h2>
+                    <div class="features-list">
+                        <div class="feature-list-item">
+                            <span class="feature-icon">📚</span>
+                            <div>
+                                <h4>Organize Classes</h4>
+                                <p>Create and manage unlimited classrooms with ease.</p>
+                            </div>
+                        </div>
+                        <div class="feature-list-item">
+                            <span class="feature-icon">✅</span>
+                            <div>
+                                <h4>Create Assignments</h4>
+                                <p>Design, distribute, and grade assignments in one place.</p>
+                            </div>
+                        </div>
+                        <div class="feature-list-item">
+                            <span class="feature-icon">💬</span>
+                            <div>
+                                <h4>Stay Connected</h4>
+                                <p>Real-time messaging and notifications with your class.</p>
+                            </div>
+                        </div>
+                        <div class="feature-list-item">
+                            <span class="feature-icon">📊</span>
+                            <div>
+                                <h4>Track Progress</h4>
+                                <p>Monitor student engagement and performance metrics.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>EduBridge</h4>
+                    <p>Connecting education through technology.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EduBridge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
